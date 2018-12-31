@@ -21,11 +21,8 @@ function FlipCard({ axis = 'y', duration = 800 }) {
   let side = SIDES.FRONT;
 
   function flip(e) {
-    console.log('flipping!', e.target);
-    if (locked) {
-      return;
-    }
 
+    if (locked) return;
     locked = true;
 
     const scale = (500 + 200) / 500;
@@ -117,7 +114,7 @@ function FlipCard({ axis = 'y', duration = 800 }) {
 }
 
 FlipCard.propTypes = {
-  axis: PropTypes.oneOf(['x', 'y', 'z', 'X', 'Y', 'Z']),
+  axis: PropTypes.oneOf(['x', 'y', 'X', 'Y']),
   duration: PropTypes.number,
 };
 
