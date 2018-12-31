@@ -103,11 +103,9 @@ function FlipCard({ axis = 'y', duration = 800 }) {
 
       <div ref={front} className="front" tabIndex="-1" onClick={flip}>
         <h1>Supercharged</h1>
-        {/* <button onClick={flip}>Flip card</button> */}
       </div>
 
       <div ref={back} className="back" tabIndex="-1" onClick={flip}>
-        {/* <button onClick={flip}>Flip card</button> */}
       </div>
     </div>
   )
