@@ -1,0 +1,77 @@
+.sc-card {
+    width: 260px;
+    height: 380px;
+    position: relative;
+    perspective: 500px;
+    will-change: transform;
+  }
+
+.front,
+.back {
+    backface-visibility: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+.sc-card button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: none;
+    text-indent: -10000px;
+    /*display: none;*/
+  }
+
+.front {
+    background: #444;
+    color: #FFF;
+  }
+
+.front h1 {
+    font-size: 24px;
+  }
+
+.back {
+    background: url(./images/supercharged.jpg) center center no-repeat;
+    color: #FFF;
+    transform: rotateY(180deg);
+  }
+
+.umbra,
+.penumbra {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: visible;
+  }
+
+.umbra {
+    width: 270px;
+    height: 390px;
+    top: -5px;
+    left: -5px;
+    background: url(images/umbra.svg) center center no-repeat;
+    transform: translateY(2px);
+    opacity: 0.3;
+  }
+
+.penumbra {
+    width: 330px;
+    height: 450px;
+    top: -35px;
+    left: -35px;
+    background: url(images/penumbra.svg) center center no-repeat;
+    transform: translateY(2px);
+    opacity: 0;
+  }
