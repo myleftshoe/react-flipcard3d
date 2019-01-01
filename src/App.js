@@ -3,7 +3,7 @@ import FlipCard from './FlipCard'
 
 function App() {
   return (
-    <FlipCard axis='Y' />
+    <FlipCard />
   );
 }
 
