@@ -4,7 +4,7 @@ import './FlipCard.css'
 // import { ReactComponent as Umbra } from '.images/umbra.svg';
 // import { ReactComponent as Penumbra } from '.images/penumbra.svg';
 
-function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise' }) {
+function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFlipped }) {
 
   const SIDES = {
     FRONT: 1,
@@ -102,6 +102,7 @@ function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise' }) {
         side = (side === SIDES.FRONT) ?
           SIDES.BACK :
           SIDES.FRONT;
+        onFlipped(side);
       };
   }
 
@@ -126,6 +127,7 @@ FlipCard.propTypes = {
   axis: PropTypes.oneOf(['auto', 'x', 'y', 'X', 'Y']),
   duration: PropTypes.number,
   direction: PropTypes.oneOf(['clockwise', 'anticlockwise']),
+  onFlipped: PropTypes.func,
 };
 
 export default FlipCard;
