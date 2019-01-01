@@ -1,15 +1,12 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types';
-import './FlipCard.css'
-// import { ReactComponent as Umbra } from '.images/umbra.svg';
-// import { ReactComponent as Penumbra } from '.images/penumbra.svg';
+// import './FlipCard.css'
+import { Card, Front, Back, Umbra, Penumbra } from './styles';
+import animations from './animations';
 
 function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFlipped }) {
 
-  const SIDES = {
-    FRONT: 1,
-    BACK: 2
-  };
+  const SIDES = { FRONT: 1, BACK: 2 };
 
   const front = useRef();
   const back = useRef();
@@ -24,59 +21,28 @@ function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFl
     if (locked) return;
     locked = true;
 
-    const scale = (500 + 200) / 500;
-
-    let _axis;
-    if (axis === 'auto') {
+    let _axis = axis.toUpperCase();
+    if (_axis === 'AUTO') {
       if (front.current.offsetHeight > front.current.offsetWidth)
         _axis = 'Y';
       else
         _axis = 'X';
     }
-    else
-      _axis = axis;
-
-    const minus = direction === 'clockwise' ? '-' : '';
-
-    const keyframes = {
-      sideOne: [
-        { transform: `translateZ(-200px) rotate${_axis}(0deg) scale(${scale})` },
-        { transform: `translateZ(-100px) rotate${_axis}(0deg) scale(${scale})`, offset: 0.15 },
-        { transform: `translateZ(-100px) rotate${_axis}(${minus}180deg) scale(${scale})`, offset: 0.65 },
-        { transform: `translateZ(-200px) rotate${_axis}(${minus}180deg) scale(${scale})` }
-      ],
-      sideTwo: [
-        { transform: `translateZ(-200px) rotate${_axis}(${minus}180deg) scale(${scale})` },
-        { transform: `translateZ(-100px) rotate${_axis}(${minus}180deg) scale(${scale})`, offset: 0.15 },
-        { transform: `translateZ(-100px) rotate${_axis}(${minus}360deg) scale(${scale})`, offset: 0.65 },
-        { transform: `translateZ(-200px) rotate${_axis}(${minus}360deg) scale(${scale})` }
-      ],
-      umbra: [
-        { opacity: 0.3, transform: `translateY(2px) rotate${_axis}(0deg)` },
-        { opacity: 0.0, transform: `translateY(62px) rotate${_axis}(0deg)`, offset: 0.15 },
-        { opacity: 0.0, transform: `translateY(62px) rotate${_axis}(${minus}180deg)`, offset: 0.65 },
-        { opacity: 0.3, transform: `translateY(2px) rotate${_axis}(${minus}180deg)` }
-      ],
-      penumbra: [
-        { opacity: 0.0, transform: `translateY(2px) rotate${_axis}(0deg)` },
-        { opacity: 0.5, transform: `translateY(62px) rotate${_axis}(0deg)`, offset: 0.15 },
-        { opacity: 0.5, transform: `translateY(62px) rotate${_axis}(${minus}180deg)`, offset: 0.65 },
-        { opacity: 0.0, transform: `translateY(2px) rotate${_axis}(${minus}180deg)` }
-      ],
+    else if (_axis === 'RANDOM') {
+      _axis = Math.random() > 0.5 ? 'X' : 'Y'
     }
 
-    const timing = {
-      duration: duration,
-      iterations: 1,
-      easing: 'ease-in-out',
-      fill: 'forwards'
-    };
+    if (!'XY'.includes(_axis)) {
+      throw new Error(`Invalid value provided for prop 'axis': must be one of 'X', 'Y', 'auto', 'random'`);
+    }
+
+    const { keyframes, timing } = animations(_axis, direction, duration);
 
     switch (side) {
+
       case SIDES.FRONT:
         front.current.animate(keyframes.sideOne, timing);
         back.current.animate(keyframes.sideTwo, timing);
-
         back.current.focus();
         // front.current.inert = true;
         // back.current.inert = false;
@@ -85,7 +51,6 @@ function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFl
       case SIDES.BACK:
         front.current.animate(keyframes.sideTwo, timing);
         back.current.animate(keyframes.sideOne, timing);
-
         front.current.focus();
         // front.current.inert = false;
         // back.current.inert = true;
@@ -97,34 +62,30 @@ function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFl
 
     umbra.current.animate(keyframes.umbra, timing);
     penumbra.current.animate(keyframes.penumbra, timing)
-      .onfinish = _ => {
+      .onfinish = () => {
         locked = false;
-        side = (side === SIDES.FRONT) ?
-          SIDES.BACK :
-          SIDES.FRONT;
+        side = (side === SIDES.FRONT) ? SIDES.BACK : SIDES.FRONT;
         onFlipped && onFlipped(side);
       };
   }
 
-
-
   return (
-    <div className="sc-card">
-      <div ref={umbra} className="umbra" />
-      <div ref={penumbra} className="penumbra" />
+    <Card>
+      <Umbra ref={umbra} />
+      <Penumbra ref={penumbra} />
 
-      <div ref={front} className="front" tabIndex="-1" onClick={flip}>
+      <Front ref={front} tabIndex="-1" onClick={flip}>
         <h1>Supercharged</h1>
-      </div>
+      </Front>
 
-      <div ref={back} className="back" tabIndex="-1" onClick={flip}>
-      </div>
-    </div>
+      <Back ref={back} tabIndex="-1" onClick={flip}>
+      </Back>
+    </Card>
   )
 }
 
 FlipCard.propTypes = {
-  axis: PropTypes.oneOf(['auto', 'x', 'y', 'X', 'Y']),
+  axis: PropTypes.oneOf(['auto', 'x', 'y', 'X', 'Y', 'random']),
   duration: PropTypes.number,
   direction: PropTypes.oneOf(['clockwise', 'anticlockwise']),
   onFlipped: PropTypes.func,
