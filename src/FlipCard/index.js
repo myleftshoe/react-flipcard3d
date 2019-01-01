@@ -10,7 +10,10 @@ FlipCard.propTypes = {
   onFlipped: PropTypes.func,
 };
 
-export default function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFlipped }) {
+export { Front as FlipCardFront }
+export { Back as FlipCardBack };
+
+export default function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFlipped, children: [frontSide, backSide], ...props }) {
 
   const SIDES = { FRONT: 1, BACK: 2 };
 
@@ -19,6 +22,9 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
   const back = useRef();
   const umbra = useRef();
   const penumbra = useRef();
+
+  const FrontSide = React.forwardRef((_, ref) => React.cloneElement(frontSide, { ref, tabIndex: -1, onClick: flip }));
+  const BackSide = React.forwardRef((_, ref) => React.cloneElement(backSide, { ref, tabIndex: -1, onClick: flip }));
 
   let locked = false;
   let side = SIDES.FRONT;
@@ -64,16 +70,11 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
   }
 
   return (
-    <Card ref={card}>
+    <Card ref={card} {...props}>
       <Umbra ref={umbra} />
       <Penumbra ref={penumbra} />
-
-      <Front ref={front} tabIndex="-1" onClick={flip}>
-        <h1>Supercharged</h1>
-      </Front>
-
-      <Back ref={back} tabIndex="-1" onClick={flip}>
-      </Back>
+      <FrontSide ref={front} />
+      <BackSide ref={back} />
     </Card>
   )
 }
