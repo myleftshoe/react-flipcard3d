@@ -1,10 +1,16 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types';
-// import './FlipCard.css'
 import { Card, Front, Back, Umbra, Penumbra } from './styles';
 import animations from './animations';
 
-function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFlipped }) {
+FlipCard.propTypes = {
+  axis: PropTypes.oneOf(['auto', 'x', 'y', 'X', 'Y', 'random']),
+  duration: PropTypes.number,
+  direction: PropTypes.oneOf(['clockwise', 'anticlockwise']),
+  onFlipped: PropTypes.func,
+};
+
+export default function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFlipped }) {
 
   const SIDES = { FRONT: 1, BACK: 2 };
 
@@ -71,15 +77,6 @@ function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFl
     </Card>
   )
 }
-
-FlipCard.propTypes = {
-  axis: PropTypes.oneOf(['auto', 'x', 'y', 'X', 'Y', 'random']),
-  duration: PropTypes.number,
-  direction: PropTypes.oneOf(['clockwise', 'anticlockwise']),
-  onFlipped: PropTypes.func,
-};
-
-export default FlipCard;
 
 // Helpers ---------------------------------------------------------------------
 function getAxis(card, axis) {
