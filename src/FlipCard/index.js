@@ -8,6 +8,7 @@ function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFl
 
   const SIDES = { FRONT: 1, BACK: 2 };
 
+  const card = useRef();
   const front = useRef();
   const back = useRef();
   const umbra = useRef();
@@ -21,20 +22,7 @@ function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFl
     if (locked) return;
     locked = true;
 
-    let _axis = axis.toUpperCase();
-    if (_axis === 'AUTO') {
-      if (front.current.offsetHeight > front.current.offsetWidth)
-        _axis = 'Y';
-      else
-        _axis = 'X';
-    }
-    else if (_axis === 'RANDOM') {
-      _axis = Math.random() > 0.5 ? 'X' : 'Y'
-    }
-
-    if (!'XY'.includes(_axis)) {
-      throw new Error(`Invalid value provided for prop 'axis': must be one of 'X', 'Y', 'auto', 'random'`);
-    }
+    let _axis = getAxis(card, axis);
 
     const { keyframes, timing } = animations(_axis, direction, duration);
 
@@ -70,7 +58,7 @@ function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFl
   }
 
   return (
-    <Card>
+    <Card ref={card}>
       <Umbra ref={umbra} />
       <Penumbra ref={penumbra} />
 
@@ -92,3 +80,23 @@ FlipCard.propTypes = {
 };
 
 export default FlipCard;
+
+// Helpers ---------------------------------------------------------------------
+function getAxis(card, axis) {
+
+  let _axis = axis.toUpperCase();
+  if (_axis === 'AUTO') {
+    if (card.current.offsetHeight > card.current.offsetWidth)
+      _axis = 'Y';
+    else
+      _axis = 'X';
+  }
+  else if (_axis === 'RANDOM') {
+    _axis = Math.random() > 0.5 ? 'X' : 'Y'
+  }
+
+  if (!'XY'.includes(_axis)) {
+    throw new Error(`Invalid value provided for prop 'axis': must be one of 'X', 'Y', 'auto', 'random'`);
+  }
+  return _axis;
+}
