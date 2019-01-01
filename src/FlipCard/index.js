@@ -1,4 +1,4 @@
-import React, { createRef } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types';
 import './FlipCard.css'
 // import { ReactComponent as Umbra } from '.images/umbra.svg';
@@ -11,11 +11,10 @@ function FlipCard({ axis = 'y', duration = 800 }) {
     BACK: 2
   };
 
-  // strangely useRef is not working. Use createRef instead.
-  const front = createRef();
-  const back = createRef();
-  const umbra = createRef();
-  const penumbra = createRef();
+  const front = useRef();
+  const back = useRef();
+  const umbra = useRef();
+  const penumbra = useRef();
 
   let locked = false;
   let side = SIDES.FRONT;
