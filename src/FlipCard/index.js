@@ -102,7 +102,7 @@ function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFl
         side = (side === SIDES.FRONT) ?
           SIDES.BACK :
           SIDES.FRONT;
-        onFlipped(side);
+        onFlipped && onFlipped(side);
       };
   }
 
