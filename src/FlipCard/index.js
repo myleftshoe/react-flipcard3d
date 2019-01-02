@@ -22,21 +22,13 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
   const SIDES = { FRONT: 1, BACK: 2 };
 
   const card = useRef();
-  const [umbraWidth, setUmbraWidth] = useState();
+  const [size, setSize] = useState({ width: null, height: null });
 
   useLayoutEffect(() => {
-    console.log(card.current.offsetHeight, card.current.offsetWidth, card.current.getBoundingClientRect())
     const { height, width } = card.current.getBoundingClientRect();
-    console.log(window.getComputedStyle(card.current));
-    const [umbra, penumbra, front, back] = [...card.current.childNodes];
-    umbra.style.height = height + 10 + 'px';
-    umbra.style.width = width + 10 + 'px';
-    umbra.style.top = '-5px';
-    umbra.style.left = '-5px';
-    penumbra.style.height = height + 70 + 'px';
-    penumbra.style.width = width + 70 + 'px';
-    penumbra.style.top = '-35px';
-    penumbra.style.left = '-35px';
+    console.log(height, width);
+    if (size.width === width && size.height === height) return;
+    setSize({ width, height });
   })
 
   const FrontSide = React.forwardRef((_, ref) => React.cloneElement(frontSide, { ref, tabIndex: -1, onClick: flip }));
@@ -91,8 +83,8 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
 
   return (
     <Card ref={card} {...props}>
-      <Umbra style={{ width: umbraWidth }} />
-      <Penumbra />
+      <Umbra style={{ width: size.width + 10, height: size.height + 10 }} />
+      <Penumbra style={{ width: size.width + 70, height: size.height + 70 }} />
       <FrontSide />
       <BackSide />
     </Card>

@@ -6,7 +6,7 @@ import { Card, CardHeader, CardMedia, CardContent, Typography } from '@material-
 export default function App() {
     return (
         <FlipCard axis='auto'
-            // style={{ height: '50vh', width: 200 }}
+            style={{ width: '260px', height: '380px' }}
         >
             <FlipCardFront>
                 <Card style={{ height: '100%' }}>

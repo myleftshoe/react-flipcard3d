@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro'
 import img from './images/supercharged.jpg'
-import umbraSvg from './images/umbra.svg'
-import penumbraSvg from './images/penumbra.svg'
+import umbraSvg from './umbra'
+import penumbraSvg from './penumbra'
 
 export const Card = styled.div`
     position: relative;
@@ -46,35 +46,37 @@ export const Back = styled.div`
 `
 
 export const Umbra = styled.div`
-    width: 100%;
-    height: 100%;
     position: absolute;
-    top: 0;
-    left: 0;
     backface-visibility: visible;
     /*  */
-    width: 270px;
-    height: 390px;
-    top: -5px;
-    left: -5px;
-    background: url(${umbraSvg}) center center no-repeat;
     transform: translateY(2px);
     opacity: 0.3;
+    ${props => {
+        const { height, width } = props.style;
+        console.log(umbraSvg({ height, width }))
+        return `
+        background: url("data:image/svg+xml;utf8,${encodeURIComponent(umbraSvg({ height, width }))}") center center no-repeat;
+        width: ${width}px;
+        height: ${height}px;
+        top: -5px;
+        left: -5px;
+    `}}
 `
 
 export const Penumbra = styled.div`
-    width: 100%;
-    height: 100%;
     position: absolute;
-    top: 0;
-    left: 0;
     backface-visibility: visible;
     /*  */
-    width: 330px;
-    height: 450px;
-    top: -35px;
-    left: -35px;
-    background: url(${penumbraSvg}) center center no-repeat;
     transform: translateY(2px);
     opacity: 0;
+    ${props => {
+        const { height, width } = props.style;
+        console.log(penumbraSvg({ height, width }))
+        return `
+        background: url("data:image/svg+xml;utf8,${encodeURIComponent(penumbraSvg({ height, width }))}") center center no-repeat;
+        width: ${width}px;
+        height: ${height}px;
+        top: -35px;
+        left: -35px;
+    `}}
 `
