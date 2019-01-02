@@ -4,11 +4,11 @@ import umbraSvg from './images/umbra.svg'
 import penumbraSvg from './images/penumbra.svg'
 
 export const Card = styled.div`
-    width: 260px;
-    height: 380px;
     position: relative;
     perspective: 500px;
     will-change: transform;
+    width: 260px;
+    height: 380px;
 `
 
 export const Front = styled.div`
@@ -39,7 +39,8 @@ export const Back = styled.div`
     border-radius: 3px;
     overflow: hidden;
     /*  */
-    background: url(${img}) center center no-repeat;
+    /* background: url(${img}) center center no-repeat; */
+    background: #444;
     color: #FFF;
     transform: rotateY(180deg);
 `

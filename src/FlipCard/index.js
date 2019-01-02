@@ -1,4 +1,8 @@
-import React, { useRef } from 'react'
+/*
+  TODO: Reinstate inert to prevent possible tabbing to back side.
+*/
+
+import React, { useRef, useLayoutEffect, useState } from 'react'
 import PropTypes from 'prop-types';
 import { Card, Front, Back, Umbra, Penumbra } from './styles';
 import animations from './animations';
@@ -18,10 +22,22 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
   const SIDES = { FRONT: 1, BACK: 2 };
 
   const card = useRef();
-  const front = useRef();
-  const back = useRef();
-  const umbra = useRef();
-  const penumbra = useRef();
+  const [umbraWidth, setUmbraWidth] = useState();
+
+  useLayoutEffect(() => {
+    console.log(card.current.offsetHeight, card.current.offsetWidth, card.current.getBoundingClientRect())
+    const { height, width } = card.current.getBoundingClientRect();
+    console.log(window.getComputedStyle(card.current));
+    const [umbra, penumbra, front, back] = [...card.current.childNodes];
+    umbra.style.height = height + 10 + 'px';
+    umbra.style.width = width + 10 + 'px';
+    umbra.style.top = '-5px';
+    umbra.style.left = '-5px';
+    penumbra.style.height = height + 70 + 'px';
+    penumbra.style.width = width + 70 + 'px';
+    penumbra.style.top = '-35px';
+    penumbra.style.left = '-35px';
+  })
 
   const FrontSide = React.forwardRef((_, ref) => React.cloneElement(frontSide, { ref, tabIndex: -1, onClick: flip }));
   const BackSide = React.forwardRef((_, ref) => React.cloneElement(backSide, { ref, tabIndex: -1, onClick: flip }));
@@ -34,6 +50,10 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
     if (locked) return;
     locked = true;
 
+    console.log(card.current.offsetHeight, card.current.offsetWidth, card.current.getBoundingClientRect())
+
+    const [umbra, penumbra, front, back] = [...card.current.childNodes];
+
     let _axis = getAxis(card, axis);
 
     const { keyframes, timing } = animations(_axis, direction, duration);
@@ -41,17 +61,17 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
     switch (side) {
 
       case SIDES.FRONT:
-        front.current.animate(keyframes.sideOne, timing);
-        back.current.animate(keyframes.sideTwo, timing);
-        back.current.focus();
+        front.animate(keyframes.sideOne, timing);
+        back.animate(keyframes.sideTwo, timing);
+        back.focus();
         // front.current.inert = true;
         // back.current.inert = false;
         break;
 
       case SIDES.BACK:
-        front.current.animate(keyframes.sideTwo, timing);
-        back.current.animate(keyframes.sideOne, timing);
-        front.current.focus();
+        front.animate(keyframes.sideTwo, timing);
+        back.animate(keyframes.sideOne, timing);
+        front.focus();
         // front.current.inert = false;
         // back.current.inert = true;
         break;
@@ -60,8 +80,8 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
         throw new Error('Unknown side');
     }
 
-    umbra.current.animate(keyframes.umbra, timing);
-    penumbra.current.animate(keyframes.penumbra, timing)
+    umbra.animate(keyframes.umbra, timing);
+    penumbra.animate(keyframes.penumbra, timing)
       .onfinish = () => {
         locked = false;
         side = (side === SIDES.FRONT) ? SIDES.BACK : SIDES.FRONT;
@@ -71,10 +91,10 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
 
   return (
     <Card ref={card} {...props}>
-      <Umbra ref={umbra} />
-      <Penumbra ref={penumbra} />
-      <FrontSide ref={front} />
-      <BackSide ref={back} />
+      <Umbra style={{ width: umbraWidth }} />
+      <Penumbra />
+      <FrontSide />
+      <BackSide />
     </Card>
   )
 }
