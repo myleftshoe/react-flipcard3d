@@ -1,6 +1,6 @@
 import React from 'react'
 import FlipCard from './FlipCard'
-import supercharged from './FlipCard/images/supercharged.jpg'
+import supercharged from './images/supercharged.jpg'
 import { Card, CardHeader, CardMedia, CardContent, Typography } from '@material-ui/core'
 
 export default function App() {
