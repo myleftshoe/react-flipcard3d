@@ -1,6 +1,5 @@
 import styled from 'styled-components/macro'
 import img from './images/supercharged.jpg'
-import umbraSvg from './umbra'
 import penumbraSvg from './penumbra'
 
 export const Card = styled.div`
@@ -43,24 +42,6 @@ export const Back = styled.div`
     background: #444;
     color: #FFF;
     transform: rotateY(180deg);
-`
-
-export const Umbra = styled.div`
-    position: absolute;
-    backface-visibility: visible;
-    /*  */
-    transform: translateY(2px);
-    opacity: 0.3;
-    ${props => {
-        const { height, width } = props.style;
-        console.log(umbraSvg({ height, width }))
-        return `
-        background: url("data:image/svg+xml;utf8,${encodeURIComponent(umbraSvg({ height, width }))}") center center no-repeat;
-        width: ${width}px;
-        height: ${height}px;
-        top: -5px;
-        left: -5px;
-    `}}
 `
 
 export const Penumbra = styled.div`

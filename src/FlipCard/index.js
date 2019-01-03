@@ -4,7 +4,8 @@
 
 import React, { useRef, useLayoutEffect, useState } from 'react'
 import PropTypes from 'prop-types';
-import { Card, Front, Back, Umbra, Penumbra } from './styles';
+import { Card, Front, Back, Penumbra } from './styles';
+import Umbra from './Umbra';
 import animations from './animations';
 
 FlipCard.propTypes = {
