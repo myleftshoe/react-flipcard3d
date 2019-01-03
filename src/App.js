@@ -17,6 +17,7 @@ export default function App() {
                     <CardMedia
                         image={supercharged}
                         title="Paella dish"
+                        style={{ height: 140 }}
                     />
                     <CardContent>
                         <Typography component="p">
