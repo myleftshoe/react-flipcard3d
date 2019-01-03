@@ -31,9 +31,9 @@ FlipCard.propTypes = {
 FlipCard.Front = Front;
 FlipCard.Back = Back;
 
-export default function FlipCard({ axis = 'longest', duration = 800, reverse = false, onFlipped, ...props }) {
+export default function FlipCard({ axis = 'longest', duration = 800, reverse = false, onFlipped, children, ...otherProps }) {
 
-  let [frontSide, backSide] = Array.isArray(props.children) ? props.children : [props.children];
+  let [frontSide, backSide] = Array.isArray(children) ? children : [children];
 
   const SIDES = { FRONT: 1, BACK: 2 };
 
@@ -108,7 +108,7 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
   }
 
   return (
-    <Card ref={card} {...props}>
+    <Card ref={card} {...otherProps}>
       <Umbra style={{ width: size.width + 10, height: size.height + 10 }} />
       <Penumbra style={{ width: size.width + 70, height: size.height + 70 }} />
       <FrontSide />
