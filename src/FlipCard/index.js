@@ -14,12 +14,26 @@ FlipCard.propTypes = {
   duration: PropTypes.number,
   direction: PropTypes.oneOf(['clockwise', 'anticlockwise']),
   onFlipped: PropTypes.func,
+  children: function (props, propName, componentName) {
+    let error = null
+    let children = React.Children.toArray(props.children);
+
+    if (children.length !== 2 ||
+      children[0].type.displayName !== 'Card__Front' ||
+      children[1].type.displayName !== 'Card__Back'
+    ) {
+      error = new Error(`Component ${componentName} must have exactly two immediate children: 'FlipCard.Front' and 'FlipCard.Back'.`);
+    }
+    return error
+  }
 };
 
 FlipCard.Front = Front;
 FlipCard.Back = Back;
 
-export default function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFlipped, children: [frontSide, backSide], ...props }) {
+export default function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFlipped, ...props }) {
+
+  let [frontSide, backSide] = Array.isArray(props.children) ? props.children : [props.children];
 
   const SIDES = { FRONT: 1, BACK: 2 };
 
@@ -31,6 +45,15 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
     if (size.width === width && size.height === height) return;
     setSize({ width, height });
   })
+
+  if (!frontSide || frontSide.type.displayName !== 'Card__Front')
+    frontSide = <Front>
+      <h1>Front</h1>
+      <p>Click or tap to flip</p>
+    </Front>
+
+  if (!backSide || backSide.type.displayName !== 'Card__Back')
+    backSide = <Back><h1>Back</h1></Back>
 
   const FrontSide = React.forwardRef((_, ref) => React.cloneElement(frontSide, { ref, tabIndex: -1, onClick: flip }));
   const BackSide = React.forwardRef((_, ref) => React.cloneElement(backSide, { ref, tabIndex: -1, onClick: flip }));
