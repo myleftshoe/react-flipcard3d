@@ -1,7 +1,7 @@
-export default function animation(axis, direction, duration) {
+export default function animation(axis, reverse, duration) {
 
     const scale = (500 + 200) / 500;
-    const minus = direction === 'clockwise' ? '-' : '';
+    const minus = reverse ? '-' : '';
 
     const keyframes = {
         sideOne: [

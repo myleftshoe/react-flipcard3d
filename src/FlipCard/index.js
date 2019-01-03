@@ -12,7 +12,7 @@ import animations from './animations';
 FlipCard.propTypes = {
   axis: PropTypes.oneOf(['auto', 'x', 'y', 'X', 'Y', 'random']),
   duration: PropTypes.number,
-  direction: PropTypes.oneOf(['clockwise', 'anticlockwise']),
+  reverse: PropTypes.bool,
   onFlipped: PropTypes.func,
   children: function (props, propName, componentName) {
     let error = null
@@ -31,7 +31,7 @@ FlipCard.propTypes = {
 FlipCard.Front = Front;
 FlipCard.Back = Back;
 
-export default function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFlipped, ...props }) {
+export default function FlipCard({ axis = 'auto', duration = 800, reverse = false, onFlipped, ...props }) {
 
   let [frontSide, backSide] = Array.isArray(props.children) ? props.children : [props.children];
 
@@ -70,7 +70,7 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
 
     let _axis = getAxis(card, axis);
 
-    const { keyframes, timing } = animations(_axis, direction, duration);
+    const { keyframes, timing } = animations(_axis, reverse, duration);
 
     switch (side) {
 
