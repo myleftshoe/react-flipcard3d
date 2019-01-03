@@ -28,7 +28,6 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
 
   useLayoutEffect(() => {
     const { height, width } = card.current.getBoundingClientRect();
-    console.log(height, width);
     if (size.width === width && size.height === height) return;
     setSize({ width, height });
   })
@@ -43,8 +42,6 @@ export default function FlipCard({ axis = 'auto', duration = 800, direction = 'c
 
     if (locked) return;
     locked = true;
-
-    console.log(card.current.offsetHeight, card.current.offsetWidth, card.current.getBoundingClientRect())
 
     const [umbra, penumbra, front, back] = [...card.current.childNodes];
 

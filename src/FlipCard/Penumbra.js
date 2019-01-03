@@ -8,7 +8,6 @@ const Penumbra = styled.div`
     opacity: 0;
     ${props => {
         const { height, width } = props.style;
-        console.log(svg({ height, width }))
         return `
         background: url("data:image/svg+xml;utf8,${encodeURIComponent(svg({ height, width }))}") center center no-repeat;
         width: ${width}px;
