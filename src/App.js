@@ -1,5 +1,5 @@
 import React from 'react'
-import FlipCard, { FlipCardFront, FlipCardBack } from './FlipCard'
+import FlipCard from './FlipCard'
 import supercharged from './FlipCard/images/supercharged.jpg'
 import { Card, CardHeader, CardMedia, CardContent, Typography } from '@material-ui/core'
 
@@ -8,7 +8,7 @@ export default function App() {
         <FlipCard axis='auto'
             style={{ width: '260px', height: '380px' }}
         >
-            <FlipCardFront>
+            <FlipCard.Front>
                 <Card style={{ height: '100%' }}>
                     <CardHeader
                         title="Shrimp and Chorizo Paella"
@@ -26,11 +26,11 @@ export default function App() {
                         </Typography>
                     </CardContent>
                 </Card>
-            </FlipCardFront>
-            <FlipCardBack>
+            </FlipCard.Front>
+            <FlipCard.Back>
                 <h1>Back</h1>
                 <h2>This is the back</h2>
-            </FlipCardBack>
+            </FlipCard.Back>
         </FlipCard>
     )
 }

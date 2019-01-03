@@ -16,8 +16,8 @@ FlipCard.propTypes = {
   onFlipped: PropTypes.func,
 };
 
-export { Front as FlipCardFront }
-export { Back as FlipCardBack };
+FlipCard.Front = Front;
+FlipCard.Back = Back;
 
 export default function FlipCard({ axis = 'auto', duration = 800, direction = 'clockwise', onFlipped, children: [frontSide, backSide], ...props }) {
 
