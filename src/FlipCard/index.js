@@ -70,6 +70,9 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
 
     let _axis = getAxis(card, axis);
 
+    const zIndex = card.current.style.zIndex;
+    card.current.style.zIndex = zIndex + 1;
+
     const { keyframes, timing } = animations(_axis, reverse, duration);
 
     switch (side) {
@@ -97,6 +100,7 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
     umbra.animate(keyframes.umbra, timing);
     penumbra.animate(keyframes.penumbra, timing)
       .onfinish = () => {
+        card.current.style.zIndex = zIndex;
         locked = false;
         side = (side === SIDES.FRONT) ? SIDES.BACK : SIDES.FRONT;
         onFlipped && onFlipped(side);

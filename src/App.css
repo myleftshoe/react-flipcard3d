@@ -1,0 +1,6 @@
+.App {
+    display:grid;
+    /* grid-auto-flow: row; */
+    grid-template-columns: auto auto auto auto auto;
+    grid-gap:20px;
+}
