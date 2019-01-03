@@ -55,8 +55,8 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
   if (!backSide || backSide.type.displayName !== 'Card__Back')
     backSide = <Back><h1>Back</h1></Back>
 
-  const FrontSide = React.forwardRef((_, ref) => React.cloneElement(frontSide, { ref, tabIndex: -1, onClick: flip }));
-  const BackSide = React.forwardRef((_, ref) => React.cloneElement(backSide, { ref, tabIndex: -1, onClick: flip }));
+  const FrontSide = props => React.cloneElement(frontSide, { tabIndex: -1, onClick: flip });
+  const BackSide = props => React.cloneElement(backSide, { tabIndex: -1, onClick: flip });
 
   let locked = false;
   let side = SIDES.FRONT;
@@ -66,7 +66,7 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
     if (locked) return;
     locked = true;
 
-    const [umbra, penumbra, front, back] = [...card.current.childNodes];
+    const [umbra, penumbra, front, back] = [...card.current.children];
 
     let _axis = getAxis(card, axis);
 
