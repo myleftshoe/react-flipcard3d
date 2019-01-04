@@ -38,12 +38,13 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
   const SIDES = { FRONT: 1, BACK: 2 };
 
   const card = useRef();
-  const [size, setSize] = useState({ width: null, height: null });
+  const [size, setSize] = useState({ width: null, height: null, borderRadius: null });
 
   useLayoutEffect(() => {
     const { height, width } = card.current.getBoundingClientRect();
+    const { borderRadius } = window.getComputedStyle(card.current);
     if (size.width === width && size.height === height) return;
-    setSize({ width, height });
+    setSize({ width, height, borderRadius });
   })
 
   if (!frontSide || frontSide.type.displayName !== 'Card__Front')
@@ -55,8 +56,8 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
   if (!backSide || backSide.type.displayName !== 'Card__Back')
     backSide = <Back><h1>Back</h1></Back>
 
-  const FrontSide = props => React.cloneElement(frontSide, { tabIndex: -1, onClick: flip });
-  const BackSide = props => React.cloneElement(backSide, { tabIndex: -1, onClick: flip });
+  const FrontSide = props => React.cloneElement(frontSide, { tabIndex: -1, onClick: flip, ...props });
+  const BackSide = props => React.cloneElement(backSide, { tabIndex: -1, onClick: flip, ...props });
 
   let locked = false;
   let side = SIDES.FRONT;
@@ -109,10 +110,10 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
 
   return (
     <Card ref={card} {...otherProps}>
-      <Umbra style={{ width: size.width + 10, height: size.height + 10 }} />
-      <Penumbra style={{ width: size.width + 70, height: size.height + 70 }} />
-      <FrontSide />
-      <BackSide />
+      <Umbra style={{ width: size.width + 10, height: size.height + 10, borderRadius: size.borderRadius }} />
+      <Penumbra style={{ width: size.width + 70, height: size.height + 70, borderRadius: size.borderRadius }} />
+      <FrontSide style={{ borderRadius: size.borderRadius }} />
+      <BackSide style={{ borderRadius: size.borderRadius }} />
     </Card>
   )
 }

@@ -8,7 +8,7 @@ export default function App() {
     return (
         <div className='App'>
             <FlipCard
-                style={{ width: '260px', height: '380px' }}
+                style={{ width: '260px', height: '380px', borderRadius: '12px' }}
             >
                 <FlipCard.Front>
                     <Card style={{ height: '100%' }}>
