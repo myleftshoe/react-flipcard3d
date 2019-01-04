@@ -32,8 +32,8 @@ const svg = ({ height, width, borderRadius }) => `
         fill-rule="evenodd"
         x="5"
         y="5"
-        height="${height - 10}
         width="${width - 10}"
+        height="${height - 10}"
         rx="${borderRadius}"
         ry="${borderRadius}"
     />
