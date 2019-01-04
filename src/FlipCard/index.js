@@ -31,9 +31,16 @@ FlipCard.propTypes = {
 FlipCard.Front = Front;
 FlipCard.Back = Back;
 
+const FrontSidePlaceholder = <Front>
+  <h1>Front</h1>
+  <p>Click or tap to flip</p>
+</Front>
+
+const BackSidePlaceholder = <Back><h1>Back</h1></Back>
+
 export default function FlipCard({ axis = 'longest', duration = 800, reverse = false, onFlipped, children, ...otherProps }) {
 
-  let [frontSide, backSide] = Array.isArray(children) ? children : [children];
+  let [FrontSide, BackSide] = Array.isArray(children) ? children : [children];
 
   const SIDES = { FRONT: 1, BACK: 2 };
 
@@ -42,22 +49,34 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
 
   useLayoutEffect(() => {
     const { height, width } = card.current.getBoundingClientRect();
-    const { borderRadius } = window.getComputedStyle(card.current);
     if (size.width === width && size.height === height) return;
+
+    let { borderRadius } = window.getComputedStyle(card.current);
+    // If borderRadius is set on Card, use that, otherwise if front element
+    // has one child only (i.e. a container) with borderRadius, use that.
+    // e.g. first and only child could be a div a border-radius defined in
+    // class or style. It could be a material-ui Card component with implicit
+    // border-radius of 4px;
+    if (!parseInt(borderRadius)) {
+      const [, , front,] = [...card.current.children];
+      if (front.children.length === 1) {
+        const firstChildStyle = (window.getComputedStyle(front.firstChild));
+        if (firstChildStyle.borderRadius)
+          borderRadius = firstChildStyle.borderRadius;
+      }
+    }
+
     setSize({ width, height, borderRadius });
   })
 
-  if (!frontSide || frontSide.type.displayName !== 'Card__Front')
-    frontSide = <Front>
-      <h1>Front</h1>
-      <p>Click or tap to flip</p>
-    </Front>
+  if (!FrontSide || FrontSide.type.displayName !== 'Card__Front')
+    FrontSide = FrontSidePlaceholder;
 
-  if (!backSide || backSide.type.displayName !== 'Card__Back')
-    backSide = <Back><h1>Back</h1></Back>
+  if (!BackSide || BackSide.type.displayName !== 'Card__Back')
+    BackSide = BackSidePlaceholder;
 
-  const FrontSide = props => React.cloneElement(frontSide, { tabIndex: -1, onClick: flip, ...props });
-  const BackSide = props => React.cloneElement(backSide, { tabIndex: -1, onClick: flip, ...props });
+  const FrontSideClone = props => React.cloneElement(FrontSide, { tabIndex: -1, onClick: flip, ...props });
+  const BackSideClone = props => React.cloneElement(BackSide, { tabIndex: -1, onClick: flip, ...props });
 
   let locked = false;
   let side = SIDES.FRONT;
@@ -112,8 +131,8 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
     <Card ref={card} {...otherProps}>
       <Umbra style={{ width: size.width + 10, height: size.height + 10, borderRadius: size.borderRadius }} />
       <Penumbra style={{ width: size.width + 70, height: size.height + 70, borderRadius: size.borderRadius }} />
-      <FrontSide style={{ borderRadius: size.borderRadius }} />
-      <BackSide style={{ borderRadius: size.borderRadius }} />
+      <FrontSideClone style={{ borderRadius: size.borderRadius }} />
+      <BackSideClone style={{ borderRadius: size.borderRadius }} />
     </Card>
   )
 }
