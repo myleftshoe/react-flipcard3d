@@ -11,7 +11,11 @@ export default function App() {
                 style={{ width: '260px', height: '380px' }}
             >
                 <FlipCard.Front>
-                    <Card style={{ height: '100%' }}>
+                    <Card
+                    // style={{ borderRadius: '3em' }}
+                    // style={{ flex: 1 }}
+                    // style={{ height: '100%' }}
+                    >
                         <CardHeader
                             title="Shrimp and Chorizo Paella"
                             subheader="September 14, 2016"
@@ -30,7 +34,9 @@ export default function App() {
                     </Card>
                 </FlipCard.Front>
                 <FlipCard.Back>
-                    <Card>
+                    <Card
+                    // style={{ borderRadius: '30px' }}
+                    >
                         <CardContent>
                             <Typography paragraph>Method:</Typography>
                             <Typography paragraph>
@@ -59,6 +65,6 @@ export default function App() {
                     </Card>
                 </FlipCard.Back>
             </FlipCard>
-        </div>
+        </div >
     )
 }

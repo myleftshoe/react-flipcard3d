@@ -38,7 +38,7 @@ const FrontSidePlaceholder = <Front>
 
 const BackSidePlaceholder = <Back><h1>Back</h1></Back>
 
-export default function FlipCard({ axis = 'longest', duration = 800, reverse = false, onFlipped, children, ...otherProps }) {
+export default function FlipCard({ axis = 'longest', duration = 800, reverse = false, square = false, onFlipped, children, ...otherProps }) {
 
   let [FrontSide, BackSide] = Array.isArray(children) ? children : [children];
 
@@ -48,23 +48,48 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
   const [size, setSize] = useState({ width: null, height: null, borderRadius: null });
 
   useLayoutEffect(() => {
-    const { height, width } = card.current.getBoundingClientRect();
-    if (size.width === width && size.height === height) return;
 
-    let { borderRadius } = window.getComputedStyle(card.current);
-    // If borderRadius is set on Card, use that, otherwise if front element
-    // has one child only (i.e. a container) with borderRadius, use that.
-    // e.g. first and only child could be a div a border-radius defined in
-    // class or style. It could be a material-ui Card component with implicit
-    // border-radius of 4px;
-    if (!parseInt(borderRadius)) {
-      const [, , front,] = [...card.current.children];
-      if (front.children.length === 1) {
-        const firstChildStyle = (window.getComputedStyle(front.firstChild));
-        if (firstChildStyle.borderRadius)
-          borderRadius = firstChildStyle.borderRadius;
+    const cardElement = card.current;
+
+    const { height, width } = cardElement.getBoundingClientRect();
+
+    const [, , frontElement, backElement] = [...card.current.children];
+    const frontFirstChildElement = frontElement.firstChild || document.createElement('div');
+    const backFirstChildElement = backElement.firstChild || document.createElement('div');
+
+    const cardBorderRadius = window.getComputedStyle(cardElement).borderRadius;
+    const frontBorderRadius = window.getComputedStyle(frontElement).borderRadius;
+    const frontFirstChildBorderRadius = window.getComputedStyle(frontFirstChildElement).borderRadius;
+
+    let defaultBorderRadius = '3px';
+
+    let borderRadius;
+
+    if (square) {
+      borderRadius = '0px';
+      frontFirstChildElement.style.borderRadius = '0px';
+      backFirstChildElement.style.borderRadius = '0px';
+    }
+    else {
+      if (parseInt(cardBorderRadius)) {
+        borderRadius = cardBorderRadius;
+        frontFirstChildElement.style.borderRadius = cardBorderRadius;
+        backFirstChildElement.style.borderRadius = cardBorderRadius;
+      }
+      else if (parseInt(frontFirstChildBorderRadius)) {
+        borderRadius = frontFirstChildBorderRadius;
+        backFirstChildElement.style.borderRadius = frontBorderRadius;
+      }
+      else {
+        borderRadius = defaultBorderRadius;
+        frontFirstChildElement.style.borderRadius = defaultBorderRadius;
+        backFirstChildElement.style.borderRadius = defaultBorderRadius;
       }
     }
+
+    console.log(frontFirstChildElement.style);
+
+    if (size.width === width && size.height === height) return;
 
     setSize({ width, height, borderRadius });
   })
