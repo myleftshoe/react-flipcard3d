@@ -20,8 +20,8 @@ const Side = styled.div`
     border-radius: 3px;
     overflow: hidden;
     /*  */
-    background: #444;
-    color: #FFF;
+    /* background: #FFF; */
+    /* color: #FFF; */
 `
 
 export const Front = styled(Side)``
@@ -29,3 +29,6 @@ export const Front = styled(Side)``
 export const Back = styled(Side)`
     transform: rotateY(180deg);
 `
+export const FrontPlaceholder = styled(Front)`${props => `background:${props.backgroundColor || 'white'}`}`
+
+export const BackPlaceholder = styled(Back)`${props => `background:${props.backgroundColor || 'white'}`}`

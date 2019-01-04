@@ -4,7 +4,7 @@
 
 import React, { useRef, useLayoutEffect, useState } from 'react'
 import PropTypes from 'prop-types';
-import { Card, Front, Back } from './Card';
+import { Card, Front, Back, FrontPlaceholder, BackPlaceholder } from './Card';
 import Umbra from './Umbra';
 import Penumbra from './Penumbra';
 import animations from './animations';
@@ -31,12 +31,14 @@ FlipCard.propTypes = {
 FlipCard.Front = Front;
 FlipCard.Back = Back;
 
-const FrontSidePlaceholder = <Front>
+const FrontSidePlaceholder = <FrontPlaceholder>
   <h1>Front</h1>
   <p>Click or tap to flip</p>
-</Front>
+</FrontPlaceholder>
 
-const BackSidePlaceholder = <Back><h1>Back</h1></Back>
+const BackSidePlaceholder = <BackPlaceholder>
+  <h1>Back</h1>
+</BackPlaceholder>
 
 export default function FlipCard({ axis = 'longest', duration = 800, reverse = false, square = false, onFlipped, children, ...otherProps }) {
 
@@ -48,48 +50,13 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
   const [size, setSize] = useState({ width: null, height: null, borderRadius: null });
 
   useLayoutEffect(() => {
-
     const cardElement = card.current;
-
     const { height, width } = cardElement.getBoundingClientRect();
 
-    const [, , frontElement, backElement] = [...card.current.children];
-    const frontFirstChildElement = frontElement.firstChild || document.createElement('div');
-    const backFirstChildElement = backElement.firstChild || document.createElement('div');
+    const borderRadius = getBorderRadiusWithSideEffects(cardElement, square);
 
-    const cardBorderRadius = window.getComputedStyle(cardElement).borderRadius;
-    const frontBorderRadius = window.getComputedStyle(frontElement).borderRadius;
-    const frontFirstChildBorderRadius = window.getComputedStyle(frontFirstChildElement).borderRadius;
-
-    let defaultBorderRadius = '3px';
-
-    let borderRadius;
-
-    if (square) {
-      borderRadius = '0px';
-      frontFirstChildElement.style.borderRadius = '0px';
-      backFirstChildElement.style.borderRadius = '0px';
-    }
-    else {
-      if (parseInt(cardBorderRadius)) {
-        borderRadius = cardBorderRadius;
-        frontFirstChildElement.style.borderRadius = cardBorderRadius;
-        backFirstChildElement.style.borderRadius = cardBorderRadius;
-      }
-      else if (parseInt(frontFirstChildBorderRadius)) {
-        borderRadius = frontFirstChildBorderRadius;
-        backFirstChildElement.style.borderRadius = frontBorderRadius;
-      }
-      else {
-        borderRadius = defaultBorderRadius;
-        frontFirstChildElement.style.borderRadius = defaultBorderRadius;
-        backFirstChildElement.style.borderRadius = defaultBorderRadius;
-      }
-    }
-
-    console.log(frontFirstChildElement.style);
-
-    if (size.width === width && size.height === height) return;
+    if (size.width === width && size.height === height)
+      return;
 
     setSize({ width, height, borderRadius });
   })
@@ -163,6 +130,50 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
 }
 
 // Helpers ---------------------------------------------------------------------
+
+function getBorderRadiusWithSideEffects(cardElement, square) {
+
+  const [, , frontElement, backElement] = [...cardElement.children];
+
+  let frontFirstChildElement = frontElement.firstChild;
+  if (!frontFirstChildElement || frontFirstChildElement.nodeType !== 1)
+    frontFirstChildElement = document.createElement('div');
+
+  let backFirstChildElement = backElement.firstChild;
+  if (!backFirstChildElement || backFirstChildElement.nodeType !== 1)
+    backFirstChildElement = document.createElement('div');
+
+  console.log(frontFirstChildElement.nodeType);
+  const cardBorderRadius = window.getComputedStyle(cardElement).borderRadius;
+  const frontBorderRadius = window.getComputedStyle(frontElement).borderRadius;
+  const frontFirstChildBorderRadius = window.getComputedStyle(frontFirstChildElement).borderRadius;
+
+  let defaultBorderRadius = '3px';
+  let borderRadius;
+  if (square) {
+    borderRadius = '0px';
+    frontFirstChildElement.style.borderRadius = '0px';
+    backFirstChildElement.style.borderRadius = '0px';
+  }
+  else {
+    if (parseInt(cardBorderRadius)) {
+      borderRadius = cardBorderRadius;
+      frontFirstChildElement.style.borderRadius = cardBorderRadius;
+      backFirstChildElement.style.borderRadius = cardBorderRadius;
+    }
+    else if (parseInt(frontFirstChildBorderRadius)) {
+      borderRadius = frontFirstChildBorderRadius;
+      backFirstChildElement.style.borderRadius = frontBorderRadius;
+    }
+    else {
+      borderRadius = defaultBorderRadius;
+      frontFirstChildElement.style.borderRadius = defaultBorderRadius;
+      backFirstChildElement.style.borderRadius = defaultBorderRadius;
+    }
+  }
+  return borderRadius;
+}
+
 function getAxis(card, axis) {
 
   let _axis = axis.toUpperCase();
