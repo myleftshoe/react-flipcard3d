@@ -1,1 +1,1 @@
-[Demo](http://localhost:3000)
+[Demo](https://myleftshoe.github.io/react-flipcard3d/)
