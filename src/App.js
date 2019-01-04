@@ -10,9 +10,9 @@ export default function App() {
             <FlipCard
                 style={{ width: '260px', height: '380px' }}
             >
-                <FlipCard.Front>
+                <FlipCard.Front color='transparent'>
                     <Card
-                    // style={{ borderRadius: '3em' }}
+                        style={{ borderRadius: '3em' }}
                     // style={{ flex: 1 }}
                     // style={{ height: '100%' }}
                     >
@@ -33,7 +33,7 @@ export default function App() {
                         </CardContent>
                     </Card>
                 </FlipCard.Front>
-                <FlipCard.Back>
+                <FlipCard.Back color='transparent'>
                     <Card
                     // style={{ borderRadius: '30px' }}
                     >

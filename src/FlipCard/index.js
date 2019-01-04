@@ -4,7 +4,7 @@
 
 import React, { useRef, useLayoutEffect, useState } from 'react'
 import PropTypes from 'prop-types';
-import { Card, Front, Back, FrontPlaceholder, BackPlaceholder } from './Card';
+import { Card, Front, Back } from './Card';
 import Umbra from './Umbra';
 import Penumbra from './Penumbra';
 import animations from './animations';
@@ -31,14 +31,14 @@ FlipCard.propTypes = {
 FlipCard.Front = Front;
 FlipCard.Back = Back;
 
-const FrontSidePlaceholder = <FrontPlaceholder>
+const FrontSidePlaceholder = <Front>
   <h1>Front</h1>
   <p>Click or tap to flip</p>
-</FrontPlaceholder>
+</Front>
 
-const BackSidePlaceholder = <BackPlaceholder>
+const BackSidePlaceholder = <Back>
   <h1>Back</h1>
-</BackPlaceholder>
+</Back>
 
 export default function FlipCard({ axis = 'longest', duration = 800, reverse = false, square = false, onFlipped, children, ...otherProps }) {
 

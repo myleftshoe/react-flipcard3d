@@ -20,15 +20,15 @@ const Side = styled.div`
     border-radius: 3px;
     overflow: hidden;
     /*  */
-    /* background: #FFF; */
-    /* color: #FFF; */
+    /* background: #444; */
+    color: #FFF;
 `
 
-export const Front = styled(Side)``
+export const Front = styled(Side)`${({ color = 'cadetblue' }) => `
+    background-color: ${color}
+`}`
 
-export const Back = styled(Side)`
+export const Back = styled(Side)`${({ color = 'indianred' }) => `
+    background-color: ${color};
     transform: rotateY(180deg);
-`
-export const FrontPlaceholder = styled(Front)`${props => `background:${props.backgroundColor || 'white'}`}`
-
-export const BackPlaceholder = styled(Back)`${props => `background:${props.backgroundColor || 'white'}`}`
+`}`
