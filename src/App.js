@@ -7,15 +7,9 @@ import { Card, CardHeader, CardMedia, CardContent, Typography } from '@material-
 export default function App() {
     return (
         <div className='App'>
-            <FlipCard
-                style={{ width: '260px', height: '380px' }}
-            >
+            <FlipCard>
                 <FlipCard.Front color='transparent'>
-                    <Card
-                        style={{ borderRadius: '3em' }}
-                    // style={{ flex: 1 }}
-                    // style={{ height: '100%' }}
-                    >
+                    <Card>
                         <CardHeader
                             title="Shrimp and Chorizo Paella"
                             subheader="September 14, 2016"
@@ -34,9 +28,7 @@ export default function App() {
                     </Card>
                 </FlipCard.Front>
                 <FlipCard.Back color='transparent'>
-                    <Card
-                    // style={{ borderRadius: '30px' }}
-                    >
+                    <Card>
                         <CardContent>
                             <Typography paragraph>Method:</Typography>
                             <Typography paragraph>

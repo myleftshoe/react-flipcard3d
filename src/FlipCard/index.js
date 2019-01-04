@@ -143,7 +143,6 @@ function getBorderRadiusWithSideEffects(cardElement, square) {
   if (!backFirstChildElement || backFirstChildElement.nodeType !== 1)
     backFirstChildElement = document.createElement('div');
 
-  console.log(frontFirstChildElement.nodeType);
   const cardBorderRadius = window.getComputedStyle(cardElement).borderRadius;
   const frontBorderRadius = window.getComputedStyle(frontElement).borderRadius;
   const frontFirstChildBorderRadius = window.getComputedStyle(frontFirstChildElement).borderRadius;
