@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/react-flipcard3d/precache-manifest.f3bfb5dd8be171f30a53f5ea0bb0ca47.js"
+  "/react-flipcard3d/precache-manifest.ebd433b0151e7e6c1207bd96aee1ee6b.js"
 );
 
 workbox.clientsClaim();
