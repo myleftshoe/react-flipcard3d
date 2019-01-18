@@ -1,12 +1,20 @@
 [Demo](https://myleftshoe.github.io/react-flipcard3d/)
 
+### Install
+
+`yarn add react-flipcard3d`
+
+then install peer dendencies:
+```
+yarn add react@16.7.0-alpha.2
+yarn add react-dom@16.7.0-alpha.2
+yarn add @emotion/core
+yarn add @emotion/styled
+```
+_If using npm replace `yarn add` with `npm install`_
+
 ### Usage
 ***
-___Install peer dependencies first!___
-- react@16.7.0-alpha.2
-- react-dom@16.7.0-alpha.2
-- @emotion/core
-- @emotion/styled
 ```JSX
 import FlipCard from 'react-flipcard3d';
 ...
@@ -23,7 +31,7 @@ import FlipCard from 'react-flipcard3d';
 ***
 _*** All props are optional ***_
 
-#### axis (string)
+##### axis (string)
 
 Value      | Description
 ---------- | ------------------------------------------------------------
@@ -34,18 +42,19 @@ _default_  | 'longest'
 'shortest' | Flip along shortest axis
 'random'   | Flip along X or Y axis randomly
 
-#### duration (integer)
+##### duration (integer)
 duration of flip animation in milliseconds
 
-#### reverse (boolean)
+##### reverse (boolean)
 
 reverse the flip direction
 
-#### onFlipped (function)
+##### onFlipped (function)
 
 Callback to be invoked on completion of flip animation
 
+### -
 
 `<FlipCard.Front>` and `<FlipCard.Back>` accept a single optional prop `color`.
-You can use any valid css color including 'transparent'. This is handy when the children have there own
-background color - a material-ui <Card> component for example.
+You can use any valid css color including 'transparent'. This is handy when the children have their own
+background color - a material-ui `<Card>` component for example.
