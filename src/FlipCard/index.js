@@ -19,8 +19,8 @@ FlipCard.propTypes = {
         let children = React.Children.toArray(props.children);
 
         if (children.length !== 2 ||
-            children[0].type.displayName !== 'Card__Front' ||
-            children[1].type.displayName !== 'Card__Back'
+            children[0].type !== Front ||
+            children[1].type !== Back
         ) {
             error = new Error(`Component ${componentName} must have exactly two immediate children: 'FlipCard.Front' and 'FlipCard.Back'.`);
         }
@@ -61,10 +61,10 @@ export default function FlipCard({ axis = 'longest', duration = 800, reverse = f
         setSize({ width, height, borderRadius });
     })
 
-    if (!FrontSide || FrontSide.type.displayName !== 'Card__Front')
+    if (!FrontSide || FrontSide.type !== Front)
         FrontSide = FrontSidePlaceholder;
 
-    if (!BackSide || BackSide.type.displayName !== 'Card__Back')
+    if (!BackSide || BackSide.type !== Back)
         BackSide = BackSidePlaceholder;
 
     const FrontSideClone = props => React.cloneElement(FrontSide, { tabIndex: -1, onClick: flip, ...props });
