@@ -1,8 +1,10 @@
 [Demo](https://myleftshoe.github.io/react-flipcard3d/)
 
 ### Install
-
-`yarn add react-flipcard3d`
+***
+```
+yarn add react-flipcard3d
+```
 
 then install peer dendencies:
 ```
