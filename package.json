@@ -1,9 +1,25 @@
 {
-  "name": "react-flipcard3d-test3",
+  "name": "react-flipcard3d",
+  "description": "3d animated flip card for react",
+  "keywords": [
+    "react",
+    "flipcard",
+    "animated",
+    "3d"
+  ],
   "version": "0.0.0",
+  "author": "",
+  "license": "MIT",
   "private": false,
   "homepage": "https://myleftshoe.github.io/react-flipcard3d",
-  "main": "dist/inyadex.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myleftshoe/react-flipcard3d"
+  },
+  "bugs": {
+    "url": "https://github.com/myleftshoe/react-flipcard3d/issues"
+  },
+  "main": "dist/index.js",
   "module": "dist/index.js",
   "babel": {
     "presets": [
