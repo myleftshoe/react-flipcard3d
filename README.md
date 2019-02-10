@@ -1,3 +1,6 @@
+![](https://img.shields.io/npm/v/react-flipcard3d.svg?style=flat)
+![](https://img.shields.io/npm/dt/react-flipcard3d.svg?style=flat)
+
 [Demo](https://myleftshoe.github.io/react-flipcard3d/)
 
 ### Install
